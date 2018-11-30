@@ -29,8 +29,8 @@ Write-Output "Updating ${$mainFiles[0].FullName}"
 Write-Output "Setting to $clientID, $functionsUrl, $tenant, $signUpSignInPolicy"
 
 $mainFileText = Get-Content -Raw -Path $mainFiles[0].FullName
-$mainFileText = $mainFileText.Replace("clientID:""fca9ecbc-f46f-46de-a4cb-de91ccdc5ad9""","clientID:""$clientID""")
-$mainFileText = $mainFileText.Replace("apiEndpointFunctions:""http://localhost:7072/api""","apiEndpointFunctions:""$functionsUrl/api""")
+$mainFileText = $mainFileText.Replace("clientID:""baf03ca9-a5d0-4862-9302-503603cea2af""","clientID:""$clientID""")
+$mainFileText = $mainFileText.Replace("apiEndpoint:""http://localhost:7072/api""","apiEndpointFunctions:""$functionsUrl/api""")
 $mainFileText = $mainFileText.Replace("tenant:""bcserverlessdemo.onmicrosoft.com""","tenant:""$tenant""")
 $mainFileText = $mainFileText.Replace("signUpSignInPolicy:""B2C_1_SISU2""","signUpSignInPolicy:""$signUpSignInPolicy""")
 $mainFileText = $mainFileText.Replace("b2cScopes:[""baf03ca9-a5d0-4862-9302-503603cea2af""]","b2cScopes:[""$clientID""]")
