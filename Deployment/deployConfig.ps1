@@ -35,34 +35,3 @@ $mainFileText = $mainFileText.Replace("tenant:""bcserverlessdemo.onmicrosoft.com
 $mainFileText = $mainFileText.Replace("signUpSignInPolicy:""B2C_1_SISU2""","signUpSignInPolicy:""$signUpSignInPolicy""")
 $mainFileText = $mainFileText.Replace("b2cScopes:[""baf03ca9-a5d0-4862-9302-503603cea2af""]","b2cScopes:[""$clientID""]")
 $mainFileText | Out-File $mainFiles[0].FullName 
-
-Write-Output "Finding ngsw json file at path: $ngswConfig"
-$ngswJSON = Get-Content -Raw -Path $ngswConfig | ConvertFrom-Json
-$newPattern = $functionsUrl + "/api/.*"
-$newPattern = $newPattern.Replace("/","\/")
-Write-Output "New Pattern: $newPattern"
-$ngswJSON.dataGroups[0].patterns += $newPattern
-$mainProperty = $ngswJSON.hashTable | Get-Member | where {$_.Name.StartsWith("/main.")}
-$mainPropertyName = $mainProperty.Name
-Write-Output "Main file: $mainPropertyName"
-$mainFilePath = "$rootPath/$mainPropertyName"
-$mainFileHash = (Get-FileHash $mainFilePath -Algorithm SHA1).Hash
-Write-Output "New file hash: $mainFileHash"
-$ngswJSON.hashTable.($mainPropertyName) = $mainFileHash
-Write-Output "JSON: $ngswJSON"
-Write-Output "FilePath: $ngswConfig"
-$ngswJSON | ConvertTo-Json -depth 100 | Out-File $ngswConfig
-
-Write-Output "Finding ngsw-worker javascript at path: $ngswWorkerJS"
-$ngswWorkerText = Get-Content -Raw -Path $ngswWorkerJS
-$previousText = "newRequest(input, init) {
-  return new Request(input, init);
-  }"
-$newText = "newRequest(input, init) {
-  init = init || {};
-  if (!init.credentials) {
-    init.credentials = 'same-origin';
-  }
-  return new Request(input, init);
-}"
-$ngswWorkerText = $ngswWorkerText.Replace($previousText,$newText)
