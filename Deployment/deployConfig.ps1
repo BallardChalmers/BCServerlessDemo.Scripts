@@ -29,9 +29,9 @@ Write-Output "Updating ${$mainFiles[0].FullName}"
 Write-Output "Setting to $clientID, $functionsUrl, $tenant, $signUpSignInPolicy"
 
 $mainFileText = Get-Content -Raw -Path $mainFiles[0].FullName
-$mainFileText = $mainFileText.Replace("clientID:'clientIDToReplace'","clientID:'$clientID'")
-$mainFileText = $mainFileText.Replace("apiEndpoint:'http://localhost:7072/api'","apiEndpointFunctions:'$functionsUrl/api'")
-$mainFileText = $mainFileText.Replace("tenant:'tenantToReplace'","tenant:'$tenant'")
-$mainFileText = $mainFileText.Replace("signUpSignInPolicy:'policyToReplace'","signUpSignInPolicy:'$signUpSignInPolicy'")
+$mainFileText = $mainFileText.Replace("clientID:""clientIDToReplace""","clientID:""$clientID""")
+$mainFileText = $mainFileText.Replace("apiEndpoint:""http://localhost:7072/api""","apiEndpointFunctions:""$functionsUrl/api""")
+$mainFileText = $mainFileText.Replace("tenant:""tenantToReplace""","tenant:""$tenant""")
+$mainFileText = $mainFileText.Replace("signUpSignInPolicy:""policyToReplace""","signUpSignInPolicy:""$signUpSignInPolicy""")
 $mainFileText = $mainFileText.Replace("b2cScopes:[""clientIDToReplace""]","b2cScopes:[""$clientID""]")
 $mainFileText | Out-File $mainFiles[0].FullName 
